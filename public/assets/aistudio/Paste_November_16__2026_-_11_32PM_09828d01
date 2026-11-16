@@ -1,0 +1,1237 @@
+# MASTER BUILD PROMPT — SUPPLYLENS
+## Software Dependency Intelligence & SBOM-Style Generator
+
+Act as a senior software engineer, JavaScript ecosystem specialist, software supply-chain engineer, data visualization architect, and premium developer-tool product designer.
+
+Build a complete, functional web application named:
+
+# SUPPLYLENS
+### Understand every dependency in your project.
+
+SupplyLens is a local-first software dependency intelligence tool that helps developers understand the third-party packages used inside their projects.
+
+It analyzes npm package manifests and lockfiles, builds direct and transitive dependency relationships, visualizes dependency trees, detects duplicated package versions, identifies dependency inconsistencies, and generates machine-readable software component inventories.
+
+IMPORTANT:
+
+This must be a real working developer tool, not a dashboard mockup.
+
+The application must parse actual uploaded project files and calculate all statistics using parsed dependency data.
+
+Do not use hardcoded scan results.
+
+Do not pretend to detect vulnerabilities without a genuine vulnerability database.
+
+Do not make external requests to package registries or upload project files.
+
+All analysis must happen locally in the browser.
+
+==================================================
+1. PRODUCT SCOPE
+==================================================
+
+Product name: SupplyLens
+
+Tagline: Understand every dependency in your project.
+
+Primary users:
+- Software developers.
+- Frontend developers.
+- Backend developers.
+- Open-source maintainers.
+- Engineering teams.
+- Students learning software architecture.
+
+The user workflow:
+
+1. Open SupplyLens.
+2. Select a local Node.js project folder, upload a ZIP archive, or select individual files.
+3. SupplyLens locates and parses package manifests and lockfiles.
+4. The dependency engine resolves available package relationships.
+5. The application builds a dependency graph.
+6. The user explores direct and transitive packages.
+7. The user investigates duplicate versions and dependency paths.
+8. The user exports a dependency inventory report.
+
+Initial ecosystem support must focus on npm.
+
+Do not build fake Python, Rust, Go, or Java parsers.
+
+Design the architecture so additional ecosystems can be added later.
+
+==================================================
+2. TECHNOLOGY STACK
+==================================================
+
+Use:
+
+- React 19.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- Lucide React.
+- JSZip for local ZIP extraction.
+- Browser File API.
+- SVG for interactive dependency graphs.
+- Web Workers for expensive parsing and graph processing where practical.
+
+No backend is required.
+
+No database is required for the first version.
+
+Use browser memory for source-file processing and LocalStorage for non-sensitive preferences and optional scan metadata.
+
+All project content must remain local.
+
+Provide:
+
+npm install
+npm run dev
+npm run build
+npm run lint
+npm test
+
+Ensure the scripts actually exist and work.
+
+==================================================
+3. PREMIUM UI/UX DESIGN
+==================================================
+
+Create a professional developer-tool interface.
+
+Visual identity:
+
+- Product: SupplyLens.
+- Dark graphite default theme.
+- Deep charcoal background.
+- Dark slate panels.
+- Emerald and cyan accents.
+- Clear typography.
+- Subtle borders.
+- Fine grid details.
+- Clean data tables.
+- Premium developer-tool aesthetics.
+- Carefully designed empty states.
+- Subtle transitions.
+- Interactive SVG graph visualizations.
+
+Provide a functional light theme.
+
+Avoid generic admin dashboard styling.
+
+The application should look like a serious software architecture and dependency intelligence tool.
+
+The layout must be responsive on desktop, tablet, and mobile.
+
+Prioritize desktop graph exploration.
+
+==================================================
+4. APPLICATION NAVIGATION
+==================================================
+
+Create a functional sidebar:
+
+1. Overview.
+2. New Analysis.
+3. Dependency Graph.
+4. Dependency Explorer.
+5. Dependency Paths.
+6. Duplicate Versions.
+7. Package Insights.
+8. Manifest & Lockfile Health.
+9. Reports.
+10. Scan History.
+11. Settings.
+
+Top navigation:
+
+- SupplyLens logo.
+- Project name.
+- Search.
+- Last analysis timestamp.
+- Theme switcher.
+- New Analysis button.
+
+Every navigation option must open a real working view.
+
+==================================================
+5. PROJECT IMPORT SYSTEM
+==================================================
+
+Support three project import methods.
+
+A. FOLDER SELECTION
+
+Use the browser-supported folder-selection input.
+
+Preserve relative file paths with webkitRelativePath where available.
+
+The user should be able to select a complete Node.js project.
+
+B. ZIP ARCHIVE UPLOAD
+
+Use JSZip to extract ZIP archives locally.
+
+Requirements:
+
+- ZIP validation.
+- Extraction progress.
+- Maximum archive size.
+- Maximum extracted size.
+- Maximum entry count.
+- ZIP path traversal protection.
+- Malformed archive handling.
+- Ignore generated directories.
+- Show files skipped and reasons.
+
+C. INDIVIDUAL FILE UPLOAD
+
+Allow selecting individual files:
+
+- package.json.
+- package-lock.json.
+- npm-shrinkwrap.json.
+
+Allow multiple manifests and lockfiles to support workspaces.
+
+Preserve filenames and relative paths.
+
+Never execute uploaded files.
+
+Never install uploaded packages.
+
+Never run npm scripts.
+
+==================================================
+6. FILE DISCOVERY ENGINE
+==================================================
+
+Find these files inside the selected project:
+
+- package.json.
+- package-lock.json.
+- npm-shrinkwrap.json.
+
+Ignore common generated directories:
+
+- node_modules.
+- .git.
+- dist.
+- build.
+- coverage.
+- .next.
+- vendor.
+
+Do not analyze package manifests buried inside ignored dependency directories unless the user explicitly changes exclusions.
+
+When multiple package.json files are present:
+
+- Identify the root manifest.
+- Identify nested workspace manifests.
+- Show discovered manifests.
+- Allow the user to select which project or workspace to analyze.
+- Avoid silently mixing unrelated projects.
+
+Show an import summary:
+
+- Project name.
+- Root directory label.
+- Manifest files discovered.
+- Lockfiles discovered.
+- Unsupported files.
+- Total file size.
+- Parsing status.
+
+==================================================
+7. NPM MANIFEST PARSER
+==================================================
+
+Implement a proper package.json parser.
+
+Extract:
+
+- name.
+- version.
+- description.
+- license.
+- scripts count.
+- dependencies.
+- devDependencies.
+- optionalDependencies.
+- peerDependencies.
+- bundledDependencies where available.
+- workspaces.
+
+Dependency sections must remain distinct.
+
+Example:
+
+{
+  "dependencies": {
+    "react": "^19.0.0",
+    "lucide-react": "^0.546.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0"
+  }
+}
+
+The application must correctly classify these as direct dependencies.
+
+Validate JSON.
+
+Handle:
+
+- Empty package.json.
+- Invalid JSON.
+- Missing dependency sections.
+- Incorrect field types.
+- Missing project name.
+- Multiple manifests.
+- Workspace references.
+
+Never crash on malformed input.
+
+==================================================
+8. NPM LOCKFILE PARSER
+==================================================
+
+This is the MOST IMPORTANT ENGINEERING COMPONENT.
+
+Implement genuine parsers for:
+
+A. package-lock.json version 3.
+B. package-lock.json version 2.
+C. package-lock.json version 1 where practical.
+D. npm-shrinkwrap.json using compatible lockfile structures.
+
+For lockfile versions 2 and 3:
+
+Parse the packages object.
+
+Each entry can contain:
+
+- Package location.
+- Package name.
+- Package version.
+- Dependencies.
+- Dev dependencies.
+- Optional dependencies.
+- Peer dependencies.
+- Resolved metadata.
+- Integrity metadata.
+- License metadata if present.
+- Development/optional flags.
+- Link/workspace metadata.
+
+Do not assume every package has every field.
+
+Handle scoped package names correctly.
+
+Examples:
+
+@types/node
+@tanstack/react-query
+react
+typescript
+
+For lockfile v1:
+
+Parse the nested dependencies object recursively.
+
+Preserve nested package relationships and resolved versions where available.
+
+IMPORTANT:
+
+Do not simply count dependency names from package.json and pretend this is the installed dependency tree.
+
+The lockfile is the primary source for resolved package versions.
+
+When no supported lockfile exists:
+
+- Parse package.json.
+- Show declared direct dependencies.
+- Show declared version ranges.
+- Set analysis mode to MANIFEST ONLY.
+- Do not fabricate resolved versions.
+- Do not fabricate transitive dependencies.
+- Clearly explain that the resolved dependency tree is unavailable.
+
+==================================================
+9. DEPENDENCY RESOLUTION ENGINE
+==================================================
+
+Create a dedicated dependency resolution engine.
+
+Support these relationships:
+
+- Direct runtime dependencies.
+- Development dependencies.
+- Optional dependencies.
+- Peer dependencies.
+- Transitive dependencies.
+
+For modern npm lockfiles:
+
+Use package locations and the `packages` map to resolve dependency relationships.
+
+Example package locations:
+
+node_modules/react
+
+node_modules/vite
+
+node_modules/some-package
+
+node_modules/some-package/node_modules/another-package
+
+Implement npm-style ancestor lookup where possible.
+
+For each package dependency:
+
+1. Identify the dependency name.
+2. Determine the package's installed location.
+3. Search the closest valid node_modules resolution location.
+4. Resolve to the corresponding lockfile package record.
+5. Record the relationship.
+6. Preserve dependency type.
+7. Mark unresolved relationships.
+
+Do not silently create fake package nodes when a dependency cannot be resolved.
+
+For unresolved dependencies, create an explicit unresolved edge or finding.
+
+For workspace links:
+
+- Identify link entries.
+- Connect workspace package references where resolvable.
+- Clearly label workspace relationships.
+
+Handle cycles safely.
+
+Use visited-node tracking to prevent infinite traversal.
+
+==================================================
+10. PACKAGE IDENTITY MODEL
+==================================================
+
+Every resolved package instance must have a stable identity.
+
+Recommended model:
+
+PackageNode:
+
+- id.
+- name.
+- version.
+- packageLocation.
+- license.
+- resolvedUrl.
+- integrity.
+- dependencyType.
+- isDirect.
+- isDevelopment.
+- isOptional.
+- isWorkspace.
+- hasUnresolvedMetadata.
+
+The same package name can have several installed versions.
+
+Example:
+
+react@18.2.0
+react@19.0.0
+
+These are separate package instances.
+
+Never merge packages solely because they have the same package name.
+
+Create a separate package-name grouping for duplicate-version analysis.
+
+==================================================
+11. DEPENDENCY GRAPH ENGINE
+==================================================
+
+Build a genuine graph model.
+
+Node types:
+
+- Root project.
+- Direct package.
+- Transitive package.
+- Workspace package.
+- Unresolved dependency.
+
+Edge types:
+
+- DEPENDENCY.
+- DEV_DEPENDENCY.
+- OPTIONAL_DEPENDENCY.
+- PEER_DEPENDENCY.
+- WORKSPACE_LINK.
+
+Each edge should record:
+
+- Source node ID.
+- Target node ID.
+- Dependency type.
+- Requested version range if known.
+- Resolved package location if applicable.
+
+Calculate:
+
+- Total resolved package instances.
+- Unique package names.
+- Direct dependencies.
+- Transitive dependencies.
+- Development dependencies.
+- Optional dependencies.
+- Peer dependencies.
+- Unresolved dependency references.
+- Maximum dependency depth.
+- Root-level package count.
+
+Do not count the root project as an installed third-party package.
+
+Avoid double-counting package instances.
+
+==================================================
+12. INTERACTIVE DEPENDENCY GRAPH
+==================================================
+
+Create an advanced SVG-based dependency explorer.
+
+Visual elements:
+
+- Root project in the centre or top-level.
+- Direct dependencies as first-level nodes.
+- Transitive dependencies as connected nodes.
+- Directional edges.
+- Dependency-type indicators.
+- Package labels.
+- Version labels.
+- Hover tooltips.
+- Selected-node highlighting.
+
+Interactions:
+
+- Click a node to inspect it.
+- Click an edge to inspect the relationship.
+- Zoom in and out.
+- Pan.
+- Fit graph to screen.
+- Reset graph.
+- Search package name.
+- Highlight dependency paths.
+- Filter dependency types.
+- Hide dev dependencies.
+- Collapse branches.
+- Expand branches.
+
+For large dependency graphs:
+
+- Use a deterministic layout.
+- Render a bounded number of visible nodes.
+- Provide graph depth controls.
+- Use progressive branch expansion.
+- Avoid rendering thousands of SVG elements simultaneously.
+- Show a warning when the graph is too large for full visual rendering.
+
+Implement graph state correctly.
+
+Do not generate a decorative graph unrelated to actual parsed data.
+
+==================================================
+13. DEPENDENCY EXPLORER
+==================================================
+
+Create a searchable package explorer.
+
+Table columns:
+
+- Package name.
+- Resolved version.
+- Dependency type.
+- Direct / Transitive.
+- Parent package.
+- Package location.
+- License metadata.
+- Package status.
+
+Filters:
+
+- Direct dependencies.
+- Transitive dependencies.
+- Runtime.
+- Development.
+- Optional.
+- Peer.
+- Workspace.
+- Unresolved.
+
+Sorting:
+
+- Package name.
+- Version.
+- Dependency depth.
+- Dependency count.
+- Package location.
+
+Add package detail panel.
+
+When a user selects a package, show:
+
+- Name.
+- Version.
+- Package location.
+- Incoming dependency relationships.
+- Outgoing dependency relationships.
+- Parent packages.
+- Child packages.
+- Direct dependency status.
+- License metadata if available.
+- Integrity metadata if available.
+- Resolution status.
+
+Do not invent package descriptions or metadata that do not exist in local files.
+
+==================================================
+14. DEPENDENCY PATH EXPLORER
+==================================================
+
+Implement a dependency path tracing feature.
+
+The user should be able to select a package and inspect how it enters the project.
+
+Example:
+
+Project
+  → vite
+      → esbuild
+          → another-package
+
+Display:
+
+- Complete path.
+- Parent package.
+- Child package.
+- Dependency type.
+- Requested version range.
+- Resolved version.
+
+Support:
+
+- Shortest path from root.
+- All parent paths within a safe configurable limit.
+- Incoming relationships.
+- Downstream dependency tree.
+
+Handle graph cycles safely.
+
+If multiple paths exist:
+
+Display them separately.
+
+Do not use unlimited recursive traversal.
+
+Provide a maximum path-count or depth limit.
+
+==================================================
+15. DUPLICATE VERSION DETECTION
+==================================================
+
+Create a dedicated duplicate version analyzer.
+
+Example:
+
+Package: semver
+
+Detected versions:
+
+- 6.3.1
+- 7.5.4
+- 7.6.0
+
+Show:
+
+- Package name.
+- Installed versions.
+- Number of instances.
+- Package locations.
+- Parent packages.
+- Dependency paths.
+
+Calculate:
+
+- Packages with multiple versions.
+- Total duplicate package instances.
+- Most duplicated package names.
+
+A duplicate version is an observation, not automatically a vulnerability.
+
+Do not automatically recommend removing versions.
+
+Explain that different parent dependencies may legitimately require different versions.
+
+==================================================
+16. MANIFEST AND LOCKFILE HEALTH ANALYZER
+==================================================
+
+Create a useful consistency analyzer.
+
+Check:
+
+1. package.json exists.
+2. A supported lockfile exists.
+3. Lockfile JSON parses successfully.
+4. Lockfile version is recognized.
+5. Root manifest name/version differs from lockfile metadata.
+6. Direct dependency declarations differ from root lockfile records.
+7. Unresolved package relationships.
+8. Duplicate package versions.
+9. Missing package versions.
+10. Unsupported lockfile structures.
+11. Workspace declarations without corresponding resolvable package entries.
+
+Show severity classifications:
+
+CRITICAL:
+- Invalid required project metadata only where analysis cannot proceed.
+
+HIGH:
+- Invalid or unsupported lockfile that prevents resolved analysis.
+
+MEDIUM:
+- Unresolved dependency relationships.
+- Manifest/lockfile inconsistencies.
+
+LOW:
+- Duplicate versions.
+- Missing optional metadata.
+- Missing license metadata.
+
+INFO:
+- Manifest-only analysis.
+- Workspace references that need manual review.
+
+IMPORTANT:
+
+Do not label every duplicate version as a security problem.
+
+Do not claim that a package is outdated without current trustworthy version data.
+
+Do not claim that a package has a known CVE.
+
+==================================================
+17. PACKAGE INSIGHTS
+==================================================
+
+Create a package insights dashboard.
+
+Display:
+
+A. Dependency Composition
+
+- Runtime dependencies.
+- Development dependencies.
+- Optional dependencies.
+- Peer dependencies.
+
+B. Dependency Depth
+
+Show how many resolved package instances exist at each dependency depth.
+
+C. Largest Dependency Branches
+
+Show direct packages with the largest reachable dependency subgraphs.
+
+D. Duplicate Versions
+
+Show package names with multiple installed versions.
+
+E. Metadata Coverage
+
+- Packages with license metadata.
+- Packages with integrity metadata.
+- Packages with missing metadata.
+
+F. Unresolved Relationships
+
+Show dependencies whose installed target cannot be resolved.
+
+All calculations must use parsed dependency data.
+
+Do not invent package-health scores.
+
+If displaying a summary score, explain its exact formula and call it a project analysis indicator, not a security score.
+
+==================================================
+18. LICENSE INVENTORY
+==================================================
+
+Create a basic license inventory based only on locally available metadata.
+
+Extract the `license` field where present in the lockfile package record.
+
+Show:
+
+- License identifier.
+- Packages using that identifier.
+- Unknown or missing license metadata.
+- Total packages with metadata.
+
+Do not infer licenses from package names.
+
+Do not label licenses as legally compatible or incompatible.
+
+Do not provide legal conclusions.
+
+Clearly distinguish missing license metadata from an actual unlicensed package.
+
+==================================================
+19. SBOM-STYLE INVENTORY EXPORT
+==================================================
+
+Build a machine-readable software component inventory.
+
+Export formats:
+
+1. JSON.
+2. CSV.
+3. Printable HTML.
+
+JSON should include:
+
+- Project name.
+- Project version.
+- Analysis mode.
+- Lockfile version.
+- Scan timestamp.
+- Total package instances.
+- Direct dependency count.
+- Transitive dependency count.
+- Package records.
+- Dependency relationships.
+- Duplicate package groups.
+- Unresolved references.
+- Manifest health findings.
+
+Package record fields:
+
+- Package name.
+- Resolved version.
+- Package location.
+- Dependency type.
+- Direct/transitive classification.
+- License metadata.
+- Integrity metadata.
+- Resolved status.
+
+Include a clear statement:
+
+"This is a locally generated dependency inventory. It is not automatically a certified CycloneDX or SPDX document."
+
+Do not claim formal SBOM standards compliance.
+
+CSV should support spreadsheet-safe output.
+
+Protect exports against formula injection.
+
+Printable HTML should use escaped text.
+
+Never export arbitrary executable content from project files.
+
+==================================================
+20. LOCAL SCAN HISTORY
+==================================================
+
+Implement browser-local analysis history.
+
+Store metadata only:
+
+- Scan ID.
+- Project label.
+- Scan date.
+- Total package instances.
+- Direct dependencies.
+- Transitive dependencies.
+- Duplicate package count.
+- Unresolved reference count.
+- Lockfile version.
+- Analysis mode.
+
+Do not store entire uploaded project files.
+
+Features:
+
+- View history.
+- Compare two analysis summaries.
+- Delete history entries.
+- Clear all history.
+
+Do not claim historical package changes unless both actual scan records are available for comparison.
+
+==================================================
+21. DEMO PROJECT
+==================================================
+
+Create a fully functional demo Node.js project.
+
+Include fictional project files:
+
+package.json
+package-lock.json
+
+Generate a realistic dependency dataset with:
+
+- Direct runtime dependencies.
+- Development dependencies.
+- Transitive dependencies.
+- A package appearing in multiple versions.
+- An optional dependency.
+- A peer dependency.
+- An unresolved dependency example if testing that state.
+- License metadata.
+- Integrity metadata.
+
+Use a clearly labeled fictional demo project.
+
+The demo project must run through the actual manifest parser, lockfile parser, resolver, graph engine, duplicate analyzer, and report generator.
+
+Never hardcode demo dashboard metrics separately from the demo package data.
+
+Add:
+
+LOAD DEMO PROJECT
+
+RESET DEMO PROJECT
+
+==================================================
+22. SETTINGS AND PREFERENCES
+==================================================
+
+Allow users to configure:
+
+- Theme.
+- Graph maximum visible nodes.
+- Default graph depth.
+- Excluded folders.
+- Excluded file names.
+- Maximum file size.
+- Maximum ZIP expansion size.
+- Default dependency filters.
+- Scan history retention.
+
+Persist preferences locally.
+
+Allow resetting to defaults.
+
+==================================================
+23. PRIVACY AND SECURITY
+==================================================
+
+SupplyLens must be privacy-first.
+
+Requirements:
+
+- All project parsing happens locally.
+- No remote backend.
+- No package registry API calls.
+- No telemetry.
+- No code upload.
+- No external dependency installation.
+- No execution of uploaded scripts.
+- No automatic npm commands.
+- No hidden network requests.
+- Validate uploaded JSON.
+- Handle ZIP path traversal.
+- Prevent ZIP bombs through extraction limits.
+- Escape user-controlled text.
+- Avoid unsafe HTML rendering.
+- Validate imported file sizes.
+- Protect against malformed data.
+- Do not execute project code.
+
+Display a visible privacy indicator:
+
+LOCAL ANALYSIS — YOUR PROJECT FILES STAY IN YOUR BROWSER.
+
+==================================================
+24. ERROR HANDLING
+==================================================
+
+Handle:
+
+- No files selected.
+- Invalid package.json.
+- Invalid package-lock.json.
+- Unsupported lockfile version.
+- Manifest without lockfile.
+- Multiple project manifests.
+- Corrupted ZIP.
+- ZIP path traversal attempt.
+- Oversized file.
+- Excessive archive expansion.
+- Missing root dependency record.
+- Unresolved package path.
+- Dependency cycles.
+- Empty dependency tree.
+- Large graph rendering.
+- Invalid workspace declaration.
+
+Each problem must have a clear explanation and appropriate next step.
+
+Do not silently ignore important parsing errors.
+
+==================================================
+25. TESTING REQUIREMENTS
+==================================================
+
+Write automated tests using Vitest.
+
+MANIFEST PARSER:
+- Valid package.json.
+- Missing dependencies.
+- Invalid JSON.
+- All dependency categories.
+- Workspace declaration.
+
+LOCKFILE PARSER:
+- Lockfile v1.
+- Lockfile v2.
+- Lockfile v3.
+- Invalid lockfile.
+- Missing package metadata.
+- Scoped packages.
+- Nested package locations.
+
+DEPENDENCY RESOLUTION:
+- Direct dependencies.
+- Transitive dependencies.
+- Nested dependency resolution.
+- Optional dependency.
+- Peer dependency.
+- Unresolved dependency.
+- Workspace links.
+- Dependency cycles.
+
+GRAPH ENGINE:
+- Correct node counts.
+- Correct edge counts.
+- Correct dependency depth.
+- Multiple versions of same package.
+- No duplicate counting.
+- Root project exclusion.
+
+HEALTH ANALYZER:
+- Missing lockfile.
+- Manifest-lockfile mismatch.
+- Unsupported lockfile.
+- Unresolved references.
+- Duplicate versions.
+
+EXPORTS:
+- JSON output.
+- CSV output.
+- Formula injection protection.
+- HTML escaping.
+- No source-code leakage.
+
+FILE PROCESSING:
+- Folder selection data.
+- ZIP extraction.
+- Malformed ZIP.
+- ZIP path traversal rejection.
+- Oversized files.
+- Exclusion rules.
+
+Use fictional package metadata in test fixtures.
+
+==================================================
+26. PROJECT STRUCTURE
+==================================================
+
+Build a modular project:
+
+SupplyLens/
+│
+├── index.html
+├── package.json
+├── README.md
+├── vite.config.ts
+│
+└── src/
+    ├── main.tsx
+    ├── App.tsx
+    │
+    ├── components/
+    │   ├── layout/
+    │   ├── dashboard/
+    │   ├── importer/
+    │   ├── graph/
+    │   ├── explorer/
+    │   ├── paths/
+    │   ├── duplicates/
+    │   ├── insights/
+    │   ├── health/
+    │   ├── reports/
+    │   └── common/
+    │
+    ├── services/
+    │   ├── fileService.ts
+    │   ├── zipService.ts
+    │   ├── manifestParser.ts
+    │   ├── lockfileV1Parser.ts
+    │   ├── lockfileV2V3Parser.ts
+    │   ├── dependencyResolver.ts
+    │   ├── graphEngine.ts
+    │   ├── duplicateAnalyzer.ts
+    │   ├── healthAnalyzer.ts
+    │   ├── licenseAnalyzer.ts
+    │   ├── pathAnalyzer.ts
+    │   ├── insightsEngine.ts
+    │   ├── reportService.ts
+    │   └── historyService.ts
+    │
+    ├── workers/
+    │   └── analysisWorker.ts
+    │
+    ├── context/
+    │   └── ProjectContext.tsx
+    │
+    ├── types/
+    │   └── index.ts
+    │
+    ├── tests/
+    │   ├── manifestParser.test.ts
+    │   ├── lockfileParser.test.ts
+    │   ├── dependencyResolver.test.ts
+    │   ├── graphEngine.test.ts
+    │   ├── healthAnalyzer.test.ts
+    │   └── reportService.test.ts
+    │
+    └── styles/
+        └── index.css
+
+Keep modules genuinely separated.
+
+Do not put the entire application into one giant component.
+
+==================================================
+27. README DOCUMENTATION
+==================================================
+
+Generate a professional README with:
+
+- Product overview.
+- Problem statement.
+- Features.
+- Technology stack.
+- Architecture.
+- Manifest parsing.
+- Lockfile parsing.
+- Dependency resolution explanation.
+- Graph model.
+- Duplicate version detection.
+- License inventory limitations.
+- Export formats.
+- Privacy model.
+- Supported lockfile versions.
+- Known limitations.
+- Windows 11 setup.
+- VS Code setup.
+- Demo project instructions.
+- Test commands.
+- Production build command.
+- Future roadmap.
+
+Clearly document that initial support focuses on npm.
+
+==================================================
+28. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+SupplyLens is complete only when:
+
+1. Project folder import works in supported browsers.
+2. ZIP import works.
+3. Individual file import works.
+4. package.json parsing works.
+5. package-lock v2 and v3 parsing works.
+6. Lockfile v1 support is implemented or clearly reported as unsupported.
+7. Direct dependencies are correctly identified.
+8. Transitive dependencies are resolved from lockfile data.
+9. Dependency types are preserved.
+10. Dependency graph uses actual parsed relationships.
+11. Duplicate versions are correctly grouped.
+12. Dependency paths can be explored.
+13. Manifest-lockfile consistency checks work.
+14. Unresolved dependencies are visible.
+15. License metadata is not fabricated.
+16. JSON export works.
+17. CSV export works.
+18. HTML report works.
+19. Demo mode uses the actual parsing engine.
+20. Large graphs do not freeze the UI.
+21. Source files are not uploaded.
+22. Production build succeeds.
+23. Automated tests pass.
+
+==================================================
+29. FINAL DELIVERY INSTRUCTIONS
+==================================================
+
+Build the entire SupplyLens application.
+
+Do not stop after creating the UI.
+
+Do not simulate dependency parsing.
+
+Do not hardcode dashboard numbers.
+
+Do not generate fake dependency relationships.
+
+Do not treat package.json version ranges as resolved installed versions.
+
+Do not merge different package versions into one package instance.
+
+Do not claim vulnerabilities without a genuine vulnerability data source.
+
+Do not claim formal SBOM compliance.
+
+Do not claim all package ecosystems are supported.
+
+Do not execute uploaded scripts.
+
+Do not send project files to external services.
+
+Prioritize:
+
+1. Correct npm lockfile parsing.
+2. Accurate dependency resolution.
+3. Correct graph relationships.
+4. Duplicate version detection.
+5. Reliable dependency path exploration.
+6. Honest analysis limitations.
+7. Safe local file processing.
+8. Useful reports.
+9. Premium interface design.
+
+Generate all required source files.
+
+Run all automated tests.
+
+Run TypeScript checks.
+
+Run the production build.
+
+Fix compilation errors and broken imports.
+
+Verify the actual demo project goes through the complete analysis pipeline.
+
+FINAL PRIORITY:
+
+REAL LOCKFILE PARSING > ACCURATE DEPENDENCY RESOLUTION > GRAPH ALGORITHMS > DATA INTEGRITY > PREMIUM UI.
+
+The finished product should feel like a professional software dependency intelligence tool that developers can use to understand the actual third-party components inside their Node.js projects.

@@ -1,0 +1,6 @@
+{
+  "name": "SupplyLens",
+  "description": "Local-first npm software dependency intelligence, interactive dependency graph explorer, duplicate version detector, and SBOM-style inventory generator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
